@@ -1,3 +1,9 @@
 # ZSI
 
-*Uczestnicy
+### Uczestnicy:
+- Mateusz Grzesikiewicz
+- Marcin Gałązka
+
+### Technologia:
+- Python
+- Django
