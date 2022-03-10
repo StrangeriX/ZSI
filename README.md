@@ -2,30 +2,13 @@
 
 ### Uczestnicy:
 - Mateusz Grzesikiewicz
-- Marcin Gałązka
 
 ### Technologia:
 - Python
 - Django
+- Django REST framework
 
 
 ### Requirements:
-- django==4.0.1
-
-### First start:
-- pip install -r requirements.txt
-- python ./project/manage.py runserver
-or
-- cd ./project
-- python manage.py runserver
-
-### If venv needed:
-https://docs.python.org/3/tutorial/venv.html
-
-- python -m venv venv
-
-#### Run venv:
-- Windows:
-venv\Scripts\activate.bat
-- Linux:
-source venv/bin/activate
+- django==3.2
+- djangorestframework==3.13
