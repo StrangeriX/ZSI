@@ -1,14 +1,5 @@
 from rest_framework import serializers
-from .models import Character, Weapon, Preset, Armor
-
-
-class PresetForCharacterSerializer(serializers.HyperlinkedModelSerializer):
-    weapon = serializers.StringRelatedField(many=True)
-    armor = serializers.StringRelatedField()
-
-    class Meta:
-        model = Preset
-        fields = ['name', 'weapon', 'armor']
+from .models import Character, Weapon, Preset, Armor, User
 
 
 class WeaponSerializer(serializers.ModelSerializer):
@@ -26,16 +17,19 @@ class PresetSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['name', 'armor', 'weapon', 'description']
 
 
-class CharacterSerializer(serializers.ModelSerializer):
+class CharacterSerializer(serializers.HyperlinkedModelSerializer):
     character_preset = PresetSerializer()
+    user = serializers.SlugRelatedField(queryset=User.objects.all(), slug_field='username')
+    level = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Character
-        fields = ['url', 'name', 'level', 'character_preset']
+        fields = ['url', 'name', 'level', 'user', 'character_preset']
 
 
 class CharacterDetailSerializer(serializers.HyperlinkedModelSerializer):
-    character_preset = PresetForCharacterSerializer()
+    character_preset = PresetSerializer()
+    level = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Character
