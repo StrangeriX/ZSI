@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    volumes:
+      - ./dad:/dad
+    environment:
+      - DB_HOST=db
+      - DB_NAME=dand_app
+      - DB_USER=root
+      - DB_PASSWORD=password
+    depends_on:
+      - db
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_DATABASE=dand_app
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=root
+    ports:
+      - 3306:3306

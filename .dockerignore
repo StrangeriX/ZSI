@@ -1,0 +1,15 @@
+.git
+.gitignore
+
+.docker
+
+dad/__pycache__/
+dad/*/__pycache__/
+dad/*/*/__pycache__/
+dad/*/*/*/__pycache__/
+
+.env/
+.venv/
+venv/
+
+db_model.png
