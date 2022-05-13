@@ -34,6 +34,12 @@ class PresetList(generics.ListCreateAPIView):
     serializer_class = PresetSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+class PresetDetail(generics.RetrieveUpdateDestroyAPIView):
+    name = 'preset-detail'
+    queryset = Preset.objects.all()
+    serializer_class = PresetSerializer
+    permission_classes = [IsAuthenticated]
+
 
 class ApiRoot(generics.GenericAPIView):
     name = 'api-root'

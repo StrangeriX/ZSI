@@ -14,7 +14,7 @@ class PresetSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Preset
-        fields = ['name', 'armor', 'weapon', 'description']
+        fields = ['id', 'name', 'armor', 'weapon', 'description']
 
 
 class CharacterSerializer(serializers.HyperlinkedModelSerializer):

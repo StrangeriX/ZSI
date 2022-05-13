@@ -18,7 +18,7 @@ services:
 
   db:
     image: mysql
-    command: --default-authentication-plugin=mysql_native_password
+    command: --default-authenticatdjangoion-plugin=mysql_native_password
     restart: always
     environment:
       - MYSQL_DATABASE=dand_app
