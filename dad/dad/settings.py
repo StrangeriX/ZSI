@@ -23,9 +23,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c28#l%@yh89qv@l8@*pn&6^ves=$&x+n_nusxg5%&pb_yi(fon'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get('DEBUG', default=1))
 
 ALLOWED_HOSTS = []
+ALLOWED_HOSTS.extend(
+    filter(
+        None,
+        os.environ.get('ALLOWED_HOST', '').split(','),
+    )
+)
 
 
 # Application definition
@@ -82,7 +88,7 @@ DATABASES = {
         'NAME':     'dand_app',
         'HOST':     'localhost',
         'USER':     'root',
-        'PASSWORD': '',
+        'PASSWORD': 'password',
     }
 }
 

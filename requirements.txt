@@ -1,4 +1,5 @@
 django==3.2
 djangorestframework==3.13
 mysqlclient
-djangorestframework_filters
+django-utils-six
+django-filter
