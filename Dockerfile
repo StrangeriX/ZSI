@@ -1,18 +1,23 @@
 FROM python:3.9
 
-ENV PYTHONUNBUFFERED 1
+ENV PATH="/scripts:${PATH}"
 
+COPY ./requirements.txt /requirements.txt
+RUN pip install -r /requirements.txt
 
+RUN mkdir /dad
 COPY ./dad /dad
-COPY /requirements.txt /requirements.txt
-
 WORKDIR /dad
-EXPOSE 8000
+COPY ./scripts /scripts
 
-RUN pip install --upgrade pip && \
-    pip install -r /requirements.txt && \
-    adduser --disabled-password --no-create-home dad
+RUN chmod +x /scripts/*
 
+RUN mkdir -p /vol/web/media
+RUN mkdir -p /vol/web/static
 
+RUN adduser user
+RUN chown -R user:user /vol
+RUN chmod -R 755 /vol/web
+USER user
 
-USER dad
+CMD ["entrypoint.sh"]

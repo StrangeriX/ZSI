@@ -2,36 +2,188 @@
 	"info": {
 		"_postman_id": "11d24fdf-2054-4386-9874-cd2323a896d5",
 		"name": "DAD APP",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20344653"
 	},
 	"item": [
 		{
-			"name": "character_list",
+			"name": "preset_list",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/characters",
-					"protocol": "http",
+					"raw": "{{base_url}}/preset",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{base_url}}"
 					],
-					"port": "8000",
 					"path": [
-						"characters"
+						"preset"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "preset_list",
+			"name": "add_new_preset",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
+							" \r",
+							"    savedData = JSON.stringify(data);\r",
+							"\r",
+							"    pm.collectionVariables.set('preset_data', savedData);\r",
+							"    pm.collectionVariables.set('new_preset_id', data.id);\r",
+							"});\r",
+							"pm.test('Weapons was added', function(){\r",
+							"    pm.response.json().weapon.lenght > 0;\r",
+							"})\r",
+							"\r",
+							"pm.test('Test type of response', function () {\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"mage\",\r\n    \"armor\": \"light\",\r\n    \"weapon\": [\"long bow\", \"1-handed\"],\r\n    \"description\": \"test preset\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/preset",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"preset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "preset_detail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Status code name is OK\", function() {\r",
+							"    pm.response.to.have.status('OK')\r",
+							"})\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"        pm.response.to.have.header(\"Content-Type\");\r",
+							"    });\r",
+							"pm.test('Is Content-Type application/json', function(){\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+							"})\r",
+							"pm.test('Response time is short', function () {\r",
+							"    pm.response.responseTime > 300;\r",
+							"});\r",
+							"pm.test(\"Response property matches environment variable\", function () {\r",
+							"  pm.expect(pm.response.json().id).to.eql(pm.collectionVariables.get(\"new_preset_id\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{base_url}}/preset/{{new_preset_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"preset",
+						"{{new_preset_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post_preset",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": {{new_preset_id}},\r\n    \"name\": \"mage\",\r\n    \"armor\": \"light\",\r\n    \"weapon\": [\"long bow\", \"2-handed\"],\r\n    \"description\": \"test preset\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/preset/{{new_preset_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"preset",
+						"{{new_preset_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_preset",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/preset/{{new_preset_id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"preset",
+						"{{new_preset_id}}"
+					]
+				}
 			},
 			"response": []
 		},
@@ -41,62 +193,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/weapon",
-					"protocol": "http",
+					"raw": "{{base_url}}/weapon",
 					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
+						"{{base_url}}"
 					],
-					"port": "8000",
 					"path": [
 						"weapon"
 					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "add_new_preset",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "http://127.0.0.1:8000/preset",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"preset"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "delete_preset",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": ""
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "post_preset",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": ""
 				}
 			},
 			"response": []
@@ -135,6 +238,28 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "new_preset_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "new_character_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "preset_data",
+			"value": ""
 		}
 	]
 }
